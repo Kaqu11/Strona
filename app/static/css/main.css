@@ -273,9 +273,15 @@ a.sociallink
     width: 64px;
     height: 64px;
     text-decoration: none;
-    background: url("img/up.png") no-repeat 0px 0px;
+    background: url("../img/up.png") no-repeat 0px 0px;
     position: fixed;
     right: 50px;
     bottom: 50px;
     display: none;
+}
+
+.my_gap
+{
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
