@@ -5,7 +5,7 @@ from app.database import db
 from app.models import User
 
 views = Blueprint('views', __name__,
-                        template_folder='templates', static_folder='static')
+                  template_folder='templates', static_folder='static')
 
 
 @views.route('/')
@@ -15,28 +15,32 @@ def home():
 
 @views.route('/registration', methods=['GET', 'POST'])
 def registration():
-
     if request.method == 'POST':
         name = request.form['name']
         surname = request.form['surrname']
         email = request.form['email']
         password = request.form['password']
 
+        user = User.query.filter_by(email=email).first()
 
-        flash('Rejestracja przebiegla pomyslnie')
+        if not user:
+            flash('Rejestracja przebiegła pomyślnie')
 
-        user = User()
+            user = User()
 
-        user.name = name
-        user.surname = surname
-        user.email = email
-        user.password = password
+            user.name = name
+            user.surname = surname
+            user.email = email
+            user.password = password
 
-        db.session.add(user)
-        db.session.commit()
-        db.session.close()
+            db.session.add(user)
+            db.session.commit()
+            db.session.close()
 
-        return redirect('/')
+            return redirect('/')
+        else:
+            flash('Email jest już zajęty')
+            return redirect('/registration')
 
     return render_template('registration.html')
 
@@ -50,10 +54,13 @@ def login():
         user = User.query.filter_by(email=email).first()
 
         if not user or not user.password == password:
-            flash('Please check your login details and try again.')
+            flash('Sprawdź, czy wprowadzone dane są poprawne')
+            return redirect('/login')
 
         login_user(user)
-        flash('Logged in successfully.')
+        flash('Zalogowano pomyślnie')
+        return redirect('/')
+
     return render_template('login.html')
 
 
@@ -66,5 +73,7 @@ def logout():
 
 @views.route('/test')
 def test():
-  user = User.query.all()
-  return f'{[i.email for i in user]}'
+    User.query.delete()
+    db.session.commit()
+    user = User.query.all()
+    return f'{[i.email for i in user]}'
