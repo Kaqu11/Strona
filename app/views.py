@@ -2,7 +2,7 @@ from flask import render_template, Blueprint, request, redirect, flash
 from flask_login import login_user, logout_user, login_required
 
 from app.database import db
-from app.models import User
+from app.models import User, Patient
 
 views = Blueprint('views', __name__,
                   template_folder='templates', static_folder='static')
@@ -77,3 +77,13 @@ def test():
     db.session.commit()
     user = User.query.all()
     return f'{[i.email for i in user]}'
+
+@views.route('/patient-list', methods=['GET', 'POST'])
+@login_required
+def patientList():
+    pass
+
+@views.route('/patient-card', methods=['GET', 'POST'])
+@login_required
+def patientCard():
+    pass

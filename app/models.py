@@ -25,3 +25,11 @@ class User(UserMixin, db.Model):
     def get_id(self):
         return str(self.id)
 
+
+class Patient(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), unique=False, nullable=False)
+    surname = db.Column(db.String(80), unique=False, nullable=False)
+    phone_number = db.Column(db.String(20), unique=False, nullable=False)
+    sex = db.Column(db.Boolean, unique=False, nullable=False)
+    visit = db.Column(db.DateTime, unique=False, nullable=False)
