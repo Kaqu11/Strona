@@ -26,12 +26,15 @@ def registration():
         if not user:
             flash('Rejestracja przebiegła pomyślnie')
 
-            user = User()
+            user = User(name=name,
+                        surname=surname,
+                        email=email,
+                        password=password)
 
-            user.name = name
-            user.surname = surname
-            user.email = email
-            user.password = password
+            # user.name = name
+            # user.surname = surname
+            # user.email = email
+            # user.password = password
 
             db.session.add(user)
             db.session.commit()
@@ -81,7 +84,8 @@ def test():
 @views.route('/patient-list', methods=['GET', 'POST'])
 @login_required
 def patientList():
-    pass
+    patient_list = Patient.query.all()
+    return render_template('patient-list.html', patient_list=patient_list)
 
 @views.route('/patient-card', methods=['GET', 'POST'])
 @login_required

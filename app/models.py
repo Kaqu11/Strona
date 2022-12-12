@@ -9,6 +9,12 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
 
+    def __init__(self, name, surname, email, password):
+        self.name = name
+        self.surname = surname
+        self.email = email
+        self.password = password
+
     def to_json(self):
         return {"name": self.name,
                 "email": self.email}
@@ -33,3 +39,10 @@ class Patient(UserMixin, db.Model):
     phone_number = db.Column(db.String(20), unique=False, nullable=False)
     sex = db.Column(db.Boolean, unique=False, nullable=False)
     visit = db.Column(db.DateTime, unique=False, nullable=False)
+
+    def __init__(self, name, surname, phone_number, sex, visit):
+        self.name = name
+        self.surname = surname
+        self.phone_number = phone_number
+        self.sex = sex
+        self.visit = visit
