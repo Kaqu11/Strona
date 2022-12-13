@@ -27,14 +27,14 @@ def create_app():
     with app.app_context():
         db.create_all()
 
-        # db.session.add(User('admin', 'admin', 'admin@gmail.com', 'admin'))
-        # db.session.add(Patient('Major',
-        #                        'Suchodolski',
-        #                        '123456789',
+        # # db.session.add(User('admin', 'admin', 'admin@gmail.com', 'admin'))
+        # db.session.add(Patient('Krzysztof',
+        #                        'Kononowicz',
+        #                        '987654321',
         #                        True,
         #                        datetime.now().replace(second=0, microsecond=0)))
-        db.session.commit()
-        db.session.close()
+        # db.session.commit()
+        # db.session.close()
 
     return app
 

@@ -31,11 +31,6 @@ def registration():
                         email=email,
                         password=password)
 
-            # user.name = name
-            # user.surname = surname
-            # user.email = email
-            # user.password = password
-
             db.session.add(user)
             db.session.commit()
             db.session.close()
@@ -84,10 +79,13 @@ def test():
 @views.route('/patient-list', methods=['GET', 'POST'])
 @login_required
 def patientList():
+
     patient_list = Patient.query.all()
     return render_template('patient-list.html', patient_list=patient_list)
 
-@views.route('/patient-card', methods=['GET', 'POST'])
+@views.route('/patient-list/delete/<int:id>', methods=['POST'])
 @login_required
-def patientCard():
-    pass
+def patientDelete(id):
+    Patient.query.filter_by(id=id).delete()
+    db.session.commit()
+    return redirect('/patient-list')

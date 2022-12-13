@@ -5,16 +5,20 @@
         <h2 style="text-align: center">Karta pacjenta</h2>
     </div>
     <div class="container">
-        {% for patient in patient_list %}
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title" style="color: black">{{ patient.name }} {{ patient.surname }}</h5>
-                    <p class="card-text" style="color: black">
-                        Wizyta: {{ patient.visit }}</p>
-                    <p class="card-text" style="color: black">
-                        Numer telefonu: {{ patient.phone_number }}</p>
+        <div class="row">
+            {% for patient in patient_list %}
+                <div class="col-sm-6">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title" style="color: black">{{ patient.name }} {{ patient.surname }}</h5>
+                            <p class="card-text" style="color: black">
+                                Wizyta: {{ patient.visit }}</p>
+                            <p class="card-text" style="color: black">
+                                Numer telefonu: {{ patient.phone_number }}</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}
