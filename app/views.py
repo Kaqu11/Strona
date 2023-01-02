@@ -2,7 +2,7 @@ from flask import render_template, Blueprint, request, redirect, flash
 from flask_login import login_user, logout_user, login_required
 
 from app.database import db
-from app.models import User, Patient
+from app.models import Doctor, Patient
 
 views = Blueprint('views', __name__,
                   template_folder='templates', static_folder='static')
@@ -18,17 +18,20 @@ def registration():
     if request.method == 'POST':
         name = request.form['name']
         surname = request.form['surrname']
-        email = request.form['email']
+        phone_number = request.form['phone_number']
+        pesel = request.form['pesel']
+        sex = request.form['sex']
         password = request.form['password']
-
-        user = User.query.filter_by(email=email).first()
+        user = Patient.query.filter_by(pesel=pesel).first()
 
         if not user:
             flash('Rejestracja przebiegła pomyślnie')
 
-            user = User(name=name,
+            user = Patient(name=name,
                         surname=surname,
-                        email=email,
+                        phone_number=phone_number,
+                        pesel=pesel,
+                        sex=sex
                         password=password)
 
             db.session.add(user)
@@ -37,7 +40,7 @@ def registration():
 
             return redirect('/')
         else:
-            flash('Email jest już zajęty')
+            flash('Użytkownik już istnieje w bazie')
             return redirect('/registration')
 
     return render_template('registration.html')
@@ -49,7 +52,7 @@ def login():
         email = request.form['email']
         password = request.form['password']
 
-        user = User.query.filter_by(email=email).first()
+        user = Doctor.query.filter_by(email=email).first()
 
         if not user or not user.password == password:
             flash('Sprawdź, czy wprowadzone dane są poprawne')
@@ -71,9 +74,9 @@ def logout():
 
 @views.route('/test')
 def test():
-    User.query.delete()
+    Doctor.query.delete()
     db.session.commit()
-    user = User.query.all()
+    user = Doctor.query.all()
     return f'{[i.email for i in user]}'
 
 @views.route('/patient-list', methods=['GET', 'POST'])

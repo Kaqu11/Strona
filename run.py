@@ -22,7 +22,7 @@ def create_app():
 
     app.register_blueprint(views)
 
-    from app.models import User, Patient
+    from app.models import Doctor, Patient
 
     with app.app_context():
         db.create_all()
