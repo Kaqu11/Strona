@@ -2,19 +2,19 @@
 
 {% block content %}
     <div class="container my_gap">
-        <h2 style="text-align: center">Karta pacjenta</h2>
+        <h2 style="text-align: center">Umówione wizyty</h2>
     </div>
     <div class="container">
         <div class="row">
-            {% for patient in patient_list %}
+            {% for doctor in visit_list %}
                 <div class="col-sm-6">
                     <div class="card" style="width: 18rem;">
                         <div class="card-body">
-                            <h5 class="card-title" style="color: black">{{ patient.name }} {{ patient.surname }}</h5>
+                            <h5 class="card-title" style="color: black">{{ doctor.patient[0].name }} {{ doctor.patient[0].surname}}</h5>
                             <p class="card-text" style="color: black">
-                                Wizyta: {{ patient.visit }}</p>
+                                Wizyta: {{ doctor.patient.date }}</p>
                             <p class="card-text" style="color: black">
-                                Numer telefonu: {{ patient.phone_number }}</p>
+                                Numer telefonu: {{ doctor.patient[0].phone }}</p>
                         </div>
                     </div>
                 </div>

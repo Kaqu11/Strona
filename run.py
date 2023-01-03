@@ -22,19 +22,30 @@ def create_app():
 
     app.register_blueprint(views)
 
-    from app.models import Doctor, Patient
+    from app.models import Doctor, Patient, Visit
 
-    with app.app_context():
-        db.create_all()
-
-        # # db.session.add(User('admin', 'admin', 'admin@gmail.com', 'admin'))
-        # db.session.add(Patient('Krzysztof',
-        #                        'Kononowicz',
-        #                        '987654321',
-        #                        True,
-        #                        datetime.now().replace(second=0, microsecond=0)))
-        # db.session.commit()
-        # db.session.close()
+    # with app.app_context():
+    #     db.create_all()
+    #
+    #     dc1 = Doctor('Kacper', 'Wojniak','kwojniak@lekarz.com','lekarz')
+    #     pt1 = Patient('Krzysztof',
+    #                 'Kononowicz',
+    #                 'konon',
+    #                 0,
+    #                 '12457896378',
+    #                 '606823475')
+    #
+    #     # visit = Visit(datetime.now().replace(second=0, microsecond=0), doctor_id=dc1.id, patient_id=pt1.id)
+    #     #
+    #     #
+    #     dc1.patient.append(pt1)
+    #     pt1.doctor.append(dc1)
+    #
+    #     db.session.add(pt1)
+    #     db.session.add(dc1)
+    #
+    #     db.session.commit()
+    #     db.session.close()
 
     return app
 

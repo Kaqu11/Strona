@@ -29,7 +29,7 @@
             <li><a href="{{ url_for('views.registration') }}">Zarejestruj się</a></li>
         {% endif %}
         {% if current_user.is_authenticated %}
-            <li><a href="{{ url_for('views.patientList') }}">Karta pacjenta</a></li>
+            <li><a href="{{ url_for('views.patientList', id=current_user.get_id()) }}">Karta pacjenta</a></li>
             <li><a href="{{ url_for('views.logout') }}">Wyloguj się</a></li>
             <li style="text-align: right">Zalogowany jako, {{ current_user.name }} {{ current_user.surname }}</li>
         {% endif %}

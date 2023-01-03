@@ -43,31 +43,34 @@ class Patient(UserMixin, db.Model):
     name = db.Column(db.String(80), unique=False, nullable=False)
     surname = db.Column(db.String(80), unique=False, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
-    phone_number = db.Column(db.String(20), unique=False, nullable=False)
     sex = db.Column(db.Boolean, unique=False, nullable=False)
     pesel = db.Column(db.String(80), unique=True, nullable=False)
+    phone = db.Column(db.String(80), unique=True, nullable=False)
 
     doctor = db.relationship('Doctor', secondary='visit', back_populates='patient')
 
 
-    def __init__(self, name, surname, password, phone_number, sex, pesel, visit):
+    def __init__(self, name, surname, password, sex, pesel, phone):
         self.name = name
         self.surname = surname
         self.password = password
-        self.phone_number = phone_number
         self.sex = sex
         self.pesel = pesel
+        self.phone = phone
 
 
 class Visit(UserMixin, db.Model):
     __tablename__ = "visit"
 
     id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.DateTime, unique=False, nullable=False)
+    date = db.Column(db.DateTime, unique=False, nullable=True)
     doctor_id = db.Column(db.Integer, db.ForeignKey('doctor.id'))
     patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'))
 
-
+    def __init__(self, date, doctor_id, patient_id):
+        self.date = date
+        self.doctor_id = doctor_id
+        self.patient_id = patient_id
 
 
 

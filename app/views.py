@@ -2,7 +2,7 @@ from flask import render_template, Blueprint, request, redirect, flash
 from flask_login import login_user, logout_user, login_required
 
 from app.database import db
-from app.models import Doctor, Patient
+from app.models import Doctor, Patient, Visit
 
 views = Blueprint('views', __name__,
                   template_folder='templates', static_folder='static')
@@ -18,10 +18,10 @@ def registration():
     if request.method == 'POST':
         name = request.form['name']
         surname = request.form['surrname']
-        phone_number = request.form['phone_number']
         pesel = request.form['pesel']
         sex = request.form['sex']
         password = request.form['password']
+        phone = request.form['phone']
         user = Patient.query.filter_by(pesel=pesel).first()
 
         if not user:
@@ -31,8 +31,9 @@ def registration():
                         surname=surname,
                         phone_number=phone_number,
                         pesel=pesel,
-                        sex=sex
-                        password=password)
+                        sex=sex,
+                        password=password,
+                        phone=phone)
 
             db.session.add(user)
             db.session.commit()
@@ -79,12 +80,11 @@ def test():
     user = Doctor.query.all()
     return f'{[i.email for i in user]}'
 
-@views.route('/patient-list', methods=['GET', 'POST'])
+@views.route('/visit-list/<id>', methods=['GET', 'POST'])
 @login_required
-def patientList():
-
-    patient_list = Patient.query.all()
-    return render_template('patient-list.html', patient_list=patient_list)
+def patientList(id):
+    visit_list = Doctor.query.filter_by(id=id)
+    return render_template('patient-list.html', visit_list=visit_list)
 
 @views.route('/patient-list/delete/<int:id>', methods=['POST'])
 @login_required
