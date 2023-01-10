@@ -29,22 +29,28 @@ def create_app():
         db.create_all()
     
         dc1 = Doctor('Kacper', 'Wojniak','kwojniak@lekarz.com','lekarz')
+        dc2 = Doctor('Kim', 'Abdul','pletwa@lekarz.com','lekarz')
 
         pt1 = Patient('Krzysztof', 'Kononowicz', 'konon', 0, '12457896378','606823475', 'konon@pl')
         pt2 = Patient('Major', 'Suchodolski', 'nitro', 1, '19685445454', '2137997', 'dj00r@nt')
+        pt3 = Patient('Jan', 'Wstawaj', '123', 1, '123456789555', '506731154', 'kimr@pl')
+
 
         #visit1 = Visit(datetime.now().replace(second=0, microsecond=0), doctor_id=dc1.id, patient_id=pt1.id)
         #visit2 = Visit(datetime.now().replace(second=0, microsecond=0), doctor_id=dc1.id, patient_id=pt2.id)
         
         dc1.patient.append(pt1)
         dc1.patient.append(pt2)
+        dc2.patient.append(pt3)
 
         #pt1.doctor.append(dc1)
         #pt2.doctor.append(dc1)
         
         db.session.add(pt1)
         db.session.add(pt2)
+        db.session.add(pt3)
         db.session.add(dc1)
+        db.session.add(dc2)
         #db.session.add(visit1)
         #db.session.add(visit2)
 
