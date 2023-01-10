@@ -6,17 +6,17 @@
     </div>
     <div class="container">
         <div class="row">
-            {% for doctor in visit_list %}
-                <div class="col-sm-6">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title" style="color: black">{{ doctor.patient[0].name }} {{ doctor.patient[0].surname}}</h5>
+            {% for visit in visit_list %}
+                <div class="col-sm-6 my_gap">
+                    	<div class="card" style="width: 18rem;">
+                      	<div class="card-body">
+                            <h5 class="card-title" style="color: black">{{visit[1]}} {{visit[2]}}</h5>
                             <p class="card-text" style="color: black">
-                                Wizyta: {{ doctor.patient.date }}</p>
+                                Wizyta: {{ visit.date }}</p>
                             <p class="card-text" style="color: black">
-                                Numer telefonu: {{ doctor.patient[0].phone }}</p>
-                        </div>
-                    </div>
+                                Numer telefonu: {{ visit[3] }}</p>
+                      	</div>
+                    	</div>
                 </div>
             {% endfor %}
         </div>

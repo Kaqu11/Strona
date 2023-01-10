@@ -29,7 +29,12 @@
             <li><a href="{{ url_for('views.registration') }}">Zarejestruj się</a></li>
         {% endif %}
         {% if current_user.is_authenticated %}
-            <li><a href="{{ url_for('views.patientList', id=current_user.get_id()) }}">Karta pacjenta</a></li>
+            {% if current_user.get_type() == "doctor" %}
+                <li><a href="{{ url_for('views.patientList', id=current_user.get_id()) }}">Wizyty</a></li>
+            {% endif %}
+            {% if current_user.get_type() == "patient" %}
+                <li><a href="{{ url_for('views.userDetails', id=current_user.get_id()) }}">Karta pacjenta</a></li>
+            {% endif %}
             <li><a href="{{ url_for('views.logout') }}">Wyloguj się</a></li>
             <li style="text-align: right">Zalogowany jako, {{ current_user.name }} {{ current_user.surname }}</li>
         {% endif %}

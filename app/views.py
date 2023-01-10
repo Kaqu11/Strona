@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint, request, redirect, flash
+from flask import render_template, Blueprint, request, redirect, flash, session
 from flask_login import login_user, logout_user, login_required
 
 from app.database import db
@@ -19,8 +19,9 @@ def registration():
         name = request.form['name']
         surname = request.form['surrname']
         pesel = request.form['pesel']
-        sex = request.form['sex']
+        sex = int(request.form['sex'])
         password = request.form['password']
+        email = request.form['email']
         phone = request.form['phone']
         user = Patient.query.filter_by(pesel=pesel).first()
 
@@ -29,11 +30,11 @@ def registration():
 
             user = Patient(name=name,
                         surname=surname,
-                        phone_number=phone_number,
                         pesel=pesel,
                         sex=sex,
                         password=password,
-                        phone=phone)
+                        phone=phone,
+                        email=email)
 
             db.session.add(user)
             db.session.commit()
@@ -52,9 +53,17 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
+        user_type = request.form['choosePre']
 
-        user = Doctor.query.filter_by(email=email).first()
+        print(user_type)
 
+        session['login_type'] = user_type
+
+        if str(user_type) == "doctor":
+            user = Doctor.query.filter_by(email=email).first()
+        elif str(user_type) == "patient":
+            user = Patient.query.filter_by(email=email).first()
+            
         if not user or not user.password == password:
             flash('Sprawdź, czy wprowadzone dane są poprawne')
             return redirect('/login')
@@ -83,7 +92,8 @@ def test():
 @views.route('/visit-list/<id>', methods=['GET', 'POST'])
 @login_required
 def patientList(id):
-    visit_list = Doctor.query.filter_by(id=id)
+    visit_list = db.engine.execute(f'SELECT DISTINCT visit.date, patient.name, patient.surname, patient.phone FROM visit, patient WHERE visit.doctor_id == {id}')
+    print(visit_list)
     return render_template('patient-list.html', visit_list=visit_list)
 
 @views.route('/patient-list/delete/<int:id>', methods=['POST'])
@@ -92,3 +102,12 @@ def patientDelete(id):
     Patient.query.filter_by(id=id).delete()
     db.session.commit()
     return redirect('/patient-list')
+
+@views.route('/user-details/<id>', methods=['GET', 'POST'])
+@login_required
+def userDetails(id):
+    users = Patient.query.filter_by(id=id)
+
+    return render_template('user-details.html', users=users)
+
+

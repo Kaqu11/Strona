@@ -23,29 +23,33 @@ def create_app():
     app.register_blueprint(views)
 
     from app.models import Doctor, Patient, Visit
+    
+    with app.app_context():
+        db.drop_all()
+        db.create_all()
+    
+        dc1 = Doctor('Kacper', 'Wojniak','kwojniak@lekarz.com','lekarz')
 
-    # with app.app_context():
-    #     db.create_all()
-    #
-    #     dc1 = Doctor('Kacper', 'Wojniak','kwojniak@lekarz.com','lekarz')
-    #     pt1 = Patient('Krzysztof',
-    #                 'Kononowicz',
-    #                 'konon',
-    #                 0,
-    #                 '12457896378',
-    #                 '606823475')
-    #
-    #     # visit = Visit(datetime.now().replace(second=0, microsecond=0), doctor_id=dc1.id, patient_id=pt1.id)
-    #     #
-    #     #
-    #     dc1.patient.append(pt1)
-    #     pt1.doctor.append(dc1)
-    #
-    #     db.session.add(pt1)
-    #     db.session.add(dc1)
-    #
-    #     db.session.commit()
-    #     db.session.close()
+        pt1 = Patient('Krzysztof', 'Kononowicz', 'konon', 0, '12457896378','606823475', 'konon@pl')
+        pt2 = Patient('Major', 'Suchodolski', 'nitro', 1, '19685445454', '2137997', 'dj00r@nt')
+
+        #visit1 = Visit(datetime.now().replace(second=0, microsecond=0), doctor_id=dc1.id, patient_id=pt1.id)
+        #visit2 = Visit(datetime.now().replace(second=0, microsecond=0), doctor_id=dc1.id, patient_id=pt2.id)
+        
+        dc1.patient.append(pt1)
+        dc1.patient.append(pt2)
+
+        #pt1.doctor.append(dc1)
+        #pt2.doctor.append(dc1)
+        
+        db.session.add(pt1)
+        db.session.add(pt2)
+        db.session.add(dc1)
+        #db.session.add(visit1)
+        #db.session.add(visit2)
+
+        db.session.commit()
+        db.session.close()
 
     return app
 

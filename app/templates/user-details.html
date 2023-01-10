@@ -1,0 +1,23 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="container my_gap">
+    <h2 style="text-align: center">Karta pacjenta</h2>
+</div>
+<div class="container my_gap">
+    {% for user in users %}
+    <div class="card" style="width: 18rem;">
+  <ul class="list-group list-group-flush">
+      <li class="list-group-item">{{ user.name }} {{ user.surname }}</li>
+      {% if user.sex == "0" %}
+        <li class="list-group-item">Płeć: Mężczyzna</li>
+      {% else %}
+        <li class="list-group-item">Płeć: Kobieta</li>
+      {% endif %}
+    <li class="list-group-item">PESEL: {{ user.pesel }}</li>
+    <li class="list-group-item">Numer telefonu: {{ user.phone }}</li>
+  </ul>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
